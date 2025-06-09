@@ -20,6 +20,7 @@ This project implements a comprehensive brain tumor detection system using advan
 - **🔬 Medical-Grade Processing**: CLAHE enhancement, Gaussian filtering, and specialized preprocessing
 - **📈 Comprehensive Analytics**: Detailed confidence analysis and risk assessment
 - **🖥️ Interactive Interface**: Professional CLI with real-time prediction capabilities
+- **🖼️ Visual Analysis**: Side-by-side image comparison with AI predictions
 - **📄 Automated Reporting**: JSON-based analysis reports with timestamps
 - **🎨 Advanced Visualization**: Training metrics, confusion matrices, and prediction overlays
 - **⚡ Production Ready**: Modular, scalable architecture with proper logging
@@ -37,14 +38,14 @@ This project implements a comprehensive brain tumor detection system using advan
 - **Image Enhancement**: CLAHE (Contrast Limited Adaptive Histogram Equalization)
 - **Data Augmentation**: Rotation, shifting, shearing, zooming, brightness adjustment
 - **Callbacks**: EarlyStopping, ReduceLROnPlateau, ModelCheckpoint, TensorBoard
-- **Metrics**: Accuracy, Precision, Recall, F1-Score, ROC-AUC
+- **Metrics**: Accuracy, Precision, Recall, F1-Score
 
 ## 📁 Project Structure
 
 ```
 brain-tumor-detection/
 ├── brain_tumor_classifier.py      # Main training and model building script
-├── krish_tumor_tester.py          # Advanced testing interface
+├── brain_tumor_predictor.py       # Advanced testing interface
 ├── brain_tumor_detection.py       # Original comparison script
 ├── test_brain_tumor.py           # Basic testing script
 ├── requirements.txt               # Project dependencies
@@ -59,7 +60,7 @@ brain-tumor-detection/
 └── .gitignore                   # Git ignore file
 ```
 
-## 🚀 Quick Start
+## 🚀 Installation & Setup
 
 ### Prerequisites
 
@@ -68,69 +69,143 @@ brain-tumor-detection/
 python --version
 
 # Clone the repository
-git clone https://github.com/krishnarula/brain-tumor-detection.git
+git clone https://github.com/yourusername/brain-tumor-detection.git
 cd brain-tumor-detection
 ```
 
-### Installation
+### Install Dependencies
 
 ```bash
-# Install required dependencies
+# Install required packages
 pip install -r requirements.txt
 ```
 
-### Training the Model
+### Prepare Dataset
 
+1. **Download brain MRI dataset** or use your own
+2. **Organize images** in this structure:
+   ```
+   dataset/brain_tumor_dataset/
+   ├── yes/          # Images with tumors
+   │   ├── Y1.jpg
+   │   ├── Y2.jpg
+   │   └── ...
+   └── no/           # Images without tumors
+       ├── N1.jpg
+       ├── N2.jpg
+       └── ...
+   ```
+
+## 🎓 Training the Model
+
+### Basic Training
 ```bash
-# Train with default configuration
+# Train with default settings (25 epochs, batch size 16)
 python brain_tumor_classifier.py --train
-
-# Train with custom parameters
-python brain_tumor_classifier.py --train --epochs 30 --batch-size 16 --learning-rate 1e-4
 ```
 
-### Testing and Prediction
-
+### Advanced Training Options
 ```bash
-# Interactive testing interface
-python krish_tumor_tester.py --interactive
+# Custom training parameters
+python brain_tumor_classifier.py --train --epochs 30 --batch-size 32 --learning-rate 1e-4
 
-# Analyze single image
-python krish_tumor_tester.py --image path/to/brain_scan.jpg
-
-# Batch analysis
-python krish_tumor_tester.py --batch path/to/images/folder
+# Use custom configuration file
+python brain_tumor_classifier.py --train --config custom_config.json
 ```
 
-## 📊 Performance Metrics
+### What Happens During Training:
+1. **Data Loading**: Automatically loads and preprocesses images
+2. **Model Building**: Creates VGG16-based architecture
+3. **Training**: Uses data augmentation and callbacks for optimal performance
+4. **Evaluation**: Tests on validation set and generates metrics
+5. **Saving**: Saves trained model and generates comprehensive report
+6. **Visualization**: Creates training plots and saves them
 
-| Metric | Score |
-|--------|-------|
-| **Accuracy** | 96.15% |
-| **Precision (Weighted)** | 96.0% |
-| **Recall (Weighted)** | 96.0% |
-| **F1-Score (Weighted)** | 96.0% |
+## 🔍 Using the Prediction System
 
-### Confusion Matrix
-```
-Actual vs Predicted:
-                 Predicted
-                No   Yes
-Actual    No  [ 9    1 ]
-         Yes  [ 0   16 ]
-
-True Negatives: 9   False Positives: 1
-False Negatives: 0  True Positives: 16
+### Interactive Mode (Recommended)
+```bash
+python brain_tumor_predictor.py --interactive
 ```
 
-## 🎨 Sample Output
+This opens an interactive menu with 6 options:
 
+#### **Option 1: 🔍 Analyze Single MRI Image**
+- **Use case**: Analyze one specific brain scan
+- **Input**: Path to image file
+- **Output**: Detailed analysis with image visualization
+
+**Example:**
 ```
-🧠 KRISH NARULA'S BRAIN TUMOR ANALYSIS REPORT
+Enter path to MRI image: ./dataset/brain_tumor_dataset/yes/Y1.jpg
+```
+
+#### **Option 2: 📁 Batch Analyze Folder**
+- **Use case**: Analyze multiple images quickly
+- **Features**: 
+  - Asks if you want to see images during analysis
+  - Shows progress counter
+  - Option to stop analysis early
+
+**Example:**
+```
+Enter folder path: ./test_images
+Show images during analysis? (y/n): y
+```
+
+#### **Option 3: 🎲 Test Random Images from Dataset**
+- **Use case**: Check model accuracy on random samples
+- **Features**:
+  - Choose number of images to test
+  - Option to display images
+  - Shows accuracy statistics
+  - Compares actual vs predicted labels
+
+**Example:**
+```
+How many random images to test? (max 253): 10
+Show images during testing? (y/n): y
+```
+
+#### **Option 4: 🖼️ Visual Batch Analysis**
+- **Use case**: Detailed examination with mandatory image viewing
+- **Features**:
+  - Shows every image with full analysis
+  - Navigation options (next, skip, quit)
+  - Perfect for detailed review
+
+#### **Option 5: 📊 Model Performance Summary**
+- **Use case**: View model information and specifications
+
+#### **Option 6: ❌ Exit**
+- **Use case**: Close the application
+
+### Command Line Usage
+
+#### **Analyze Single Image:**
+```bash
+# Basic analysis
+python brain_tumor_predictor.py --image "path/to/brain_scan.jpg"
+
+# With custom model
+python brain_tumor_predictor.py --model "custom_model.h5" --image "scan.jpg"
+```
+
+#### **Batch Analysis:**
+```bash
+# Analyze all images in folder
+python brain_tumor_predictor.py --batch "path/to/folder"
+```
+
+## 📊 Understanding the Results
+
+### Sample Analysis Output
+```
+🧠 BRAIN TUMOR ANALYSIS REPORT
 ================================================================================
 📁 Image: brain_scan_001.jpg
 ⏰ Analysis Time: 2025-01-15T10:30:45
-🔬 AI Model: Krish Narula's Advanced Brain Tumor Detector
+🔬 AI Model: Advanced Brain Tumor Detection System
 
 --------------------------------------------------
 📊 ANALYSIS RESULTS
@@ -153,38 +228,124 @@ False Negatives: 0  True Positives: 16
    🔴 [██████████████████████████████████████████████████░░░░] 94.3%
 ```
 
-## 🔧 Configuration
+### Risk Level Interpretation
+- **🟢 LOW RISK**: High confidence no tumor (>90%)
+- **🟡 LOW-MODERATE RISK**: Moderate confidence (70-90%)
+- **🟠 MODERATE RISK**: Tumor detected with good confidence (70-90%)
+- **🔴 HIGH RISK**: Tumor detected with high confidence (>90%)
+- **⚪ UNCERTAIN**: Low confidence predictions (<70%)
 
-The system uses a flexible configuration system:
+### Image Visualization
+The system displays:
+- **Left Panel**: Original MRI scan
+- **Right Panel**: Enhanced image with AI analysis overlay
+- **Title**: Prediction status, confidence, and risk level
+- **Colors**: Red for tumor detected, Green for no tumor
 
-```python
-@dataclass
-class Config:
-    # Data parameters
-    image_size: Tuple[int, int] = (224, 224)
-    batch_size: int = 16
-    test_size: float = 0.15
-    validation_size: float = 0.15
-    
-    # Model parameters
-    learning_rate: float = 1e-4
-    epochs: int = 25
-    patience: int = 7
-    
-    # Model architecture
-    dense_units: int = 128
-    dropout_rate: float = 0.5
-    use_batch_norm: bool = True
+## 🧪 Testing with Your Own Images
+
+### Supported Formats
+- **File Types**: `.jpg`, `.jpeg`, `.png`, `.bmp`, `.tiff`
+- **Recommended Size**: Any size (automatically resized to 224x224)
+- **Color**: RGB or grayscale (converted automatically)
+
+### Best Practices
+1. **Use clear MRI brain scans** for best results
+2. **Ensure good image quality** (not blurry or corrupted)
+3. **Test multiple images** to understand model behavior
+4. **Compare with known results** when possible
+
+### Example Test Commands
+```bash
+# Test single image
+python brain_tumor_predictor.py --image "./my_scan.jpg"
+
+# Test folder of images
+python brain_tumor_predictor.py --batch "./my_scans/"
+
+# Interactive testing with visualization
+python brain_tumor_predictor.py --interactive
+# Then choose option 1 and enter your image path
 ```
 
-## 📈 Training Visualization
+## 📈 Performance Metrics
 
-The system generates comprehensive training visualizations:
+| Metric | Score |
+|--------|-------|
+| **Accuracy** | 96.15% |
+| **Precision (Weighted)** | 96.0% |
+| **Recall (Weighted)** | 96.0% |
+| **F1-Score (Weighted)** | 96.0% |
 
-- **Accuracy curves**: Training vs Validation accuracy over epochs
-- **Loss curves**: Training vs Validation loss progression
-- **Precision/Recall metrics**: Model performance metrics over time
-- **Confusion matrices**: Detailed classification results
+### Confusion Matrix
+```
+Actual vs Predicted:
+                 Predicted
+                No   Yes
+Actual    No  [ 9    1 ]
+         Yes  [ 0   16 ]
+
+True Negatives: 9   False Positives: 1
+False Negatives: 0  True Positives: 16
+```
+
+## 🔧 Configuration Options
+
+### Model Parameters
+```python
+# Default configuration
+image_size = (224, 224)      # Input image dimensions
+batch_size = 16              # Training batch size
+learning_rate = 1e-4         # Learning rate for optimization
+epochs = 25                  # Training epochs
+patience = 7                 # Early stopping patience
+```
+
+### Customization
+Create a `config.json` file:
+```json
+{
+    "epochs": 30,
+    "batch_size": 32,
+    "learning_rate": 0.0001,
+    "dense_units": 256,
+    "dropout_rate": 0.3
+}
+```
+
+## 🚨 Troubleshooting
+
+### Common Issues
+
+#### **Model Not Found Error**
+```bash
+❌ No trained model found. Please train the model first.
+```
+**Solution**: Run training first:
+```bash
+python brain_tumor_classifier.py --train
+```
+
+#### **Image Loading Error**
+```bash
+❌ Could not load image from path/to/image.jpg
+```
+**Solutions**:
+- Check file path is correct
+- Ensure image format is supported
+- Verify file is not corrupted
+
+#### **Memory Issues**
+**Solutions**:
+- Reduce batch size: `--batch-size 8`
+- Close other applications
+- Use smaller images
+
+#### **Import Errors**
+**Solution**: Reinstall dependencies:
+```bash
+pip install -r requirements.txt --upgrade
+```
 
 ## 🏥 Medical Disclaimer
 
@@ -205,7 +366,7 @@ This project demonstrates expertise in:
 
 ```
 tensorflow>=2.10.0
-scikit-learn>=1.0.0
+scikit-learn>=1.3.0
 opencv-python>=4.5.0
 matplotlib>=3.5.0
 seaborn>=0.11.0
@@ -215,35 +376,7 @@ imutils>=0.5.0
 pillow>=8.0.0
 ```
 
-## 🔄 Future Enhancements
-
-- [ ] Integration with DICOM medical imaging standards
-- [ ] Multi-class tumor type classification
-- [ ] Web-based dashboard for real-time analysis
-- [ ] Mobile app integration
-- [ ] Advanced visualization with 3D rendering
-- [ ] Integration with hospital information systems
-- [ ] Explainable AI features for medical professionals
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
-
-**Krish Narula**
-- LinkedIn: [Add your LinkedIn]
-- Email: [Add your email]
-- Portfolio: [Add your portfolio website]
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/krishnarula/brain-tumor-detection/issues).
-
-## ⭐ Show your support
-
-Give a ⭐️ if this project helped you!
-
----
-
-*Developed with ❤️ by Krish Narula for advancing medical AI research* 
